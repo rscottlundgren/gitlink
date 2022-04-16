@@ -4,14 +4,17 @@ import { Link } from 'react-router-dom';
 import Spinner from '../components/layout/Spinner';
 import GithubContext from '../context/github/GithubContext';
 import { useParams } from 'react-router-dom';
+import RepoList from '../components/repos/RepoList';
 
 function User() {
-	const { getUser, user, isLoading } = useContext(GithubContext);
+	const { getUser, user, isLoading, getUserRepos, repos } =
+		useContext(GithubContext);
 
 	const params = useParams();
 
 	useEffect(() => {
 		getUser(params.login);
+		getUserRepos(params.login);
 	}, []);
 
 	const {
@@ -148,6 +151,10 @@ function User() {
 						</div>
 					</div>
 				</div>
+				<div className='w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats'>
+					Contribution Heat Map
+				</div>
+				<RepoList repos={repos} />
 			</div>
 		</>
 	);
